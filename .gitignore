@@ -1,0 +1,5 @@
+node_modules
+bower_components
+script.min.js
+*.map
+style.css
