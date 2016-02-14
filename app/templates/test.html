@@ -1,0 +1,21 @@
+<upload-button label="Test"></upload-button>
+
+<div round-progress
+	max="data.total"
+	current="data.progress"
+	rounded="false"
+	radius="200"
+	stroke="200"
+	duration="200"
+	animation="easeInOutQuad"
+	color="#000000"
+	bgcolor="#eeeeee"
+></div>
+
+<p>Avg speed: {{data.speedAdjusted}} {{data.speedUnit}}</p>
+<p>Elapsed: {{time.elapsed | amDateFormat:'HH:mm:ss'}}</p>
+<p>Remaining: {{time.remaining | amDateFormat:'HH:mm:ss'}}</p>
+
+
+<p>Error: {{errorMsg}}</p>
+<p>{{successMsg}}</p>

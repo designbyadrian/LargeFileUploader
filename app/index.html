@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:ng="http://angularjs.org" ng-app="LargeFileUploader" id="ng-app">
 <head>
-	<meta charset="UTF-8">
 	<title>Reut</title>
-	<link rel="stylesheet" href="style.css">
-</head>
-<body>
-	<i class="fa fa-lemon-o"></i> Hello World
 
-	<div class="test">apa</div>
+	<base href="/">
+	<meta name="fragment" content="!">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link rel="stylesheet" href="style.css">
 	<script src="script.min.js"></script>
+</head>
+<body ng-view>
+	
 </body>
 </html>

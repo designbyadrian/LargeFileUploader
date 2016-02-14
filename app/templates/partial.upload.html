@@ -1,0 +1,10 @@
+<label class="btn-upload">{{uploadBtn.label}}
+	<input class="hidden-input" id="fileUpload" type="file" 
+		ngf-select="uploadFiles($file,$invalidFiles)"
+		ngf-drop-disabled="true"
+		ngf-capture="'camera'"
+		ngf-accept="'video/*'"
+		ngf-allow-dir="false"
+		ngf-max-files="1"
+	/>
+</label>

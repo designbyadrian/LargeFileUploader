@@ -15,7 +15,7 @@ var gulp = require('gulp'),
 	notify = require('gulp-notify'),
 	plumber = require('gulp-plumber'),
 	rename = require('gulp-rename'),
-	connect = require('gulp-connect'),
+	browserSync = require('browser-sync'),
 	queue = require('streamqueue'),
 	paths = {
 		root: 	'./app',
@@ -25,10 +25,18 @@ var gulp = require('gulp'),
 		mainSASS: './assets/sass/main.sass'
 	},
 	sassVendors = [
+		'./bower_components/normalize-scss/',
 		'./bower_components/font-awesome/scss/'
 	],
 	jsVendors = [
-		'./bower_components/jquery/dist/jquery.min.js'
+		'./bower_components/angular/angular.min.js',
+		'./bower_components/angular-route/angular-route.min.js',
+		'./bower_components/angular-sanitize/angular-sanitize.min.js',
+		'./bower_components/angular-animate/angular-animate.min.js',
+		'./bower_components/moment/min/moment.min.js',
+		'./bower_components/angular-moment/angular-moment.min.js',
+		'./bower_components/ng-file-upload/ng-file-upload.min.js',
+		'./bower_components/angular-svg-round-progressbar/build/roundProgress.min.js'
 	];
 
 gulp.task('default', sequence('clean', ['styles','scripts'],'webserver','watch'));
@@ -39,9 +47,11 @@ gulp.task('clean',function(){
 
 gulp.task('webserver',function(){
 	console.log("werb server",paths.root);
-	connect.server({
-		root: paths.root,
-		livereload: true
+
+	browserSync({
+		proxy: 'lfu:8888',
+		port: 8080,
+		open: false
 	});
 });
 
@@ -96,12 +106,13 @@ gulp.task('sass',function(){
 		.pipe(minifyCSS())
 		.pipe(rename('style.css'))
 		.pipe(gulp.dest(paths.root))
-		.pipe(sourcemaps.write(paths.root))
+		.pipe(sourcemaps.write('./'))
 		.pipe(gulp.dest(paths.root))
 		.pipe(notify({
 			message: 'SASS complete'
 		}))
-		.pipe(connect.reload());
+		.pipe(browserSync.stream());
+		//.pipe(connect.reload());
 });
 
 
@@ -121,8 +132,8 @@ gulp.task('es-lint',function(){
 			}
 		}))
 		.pipe(eslint())
-		.pipe(eslint.format())
-		.pipe(eslint.failAfterError());
+		.pipe(eslint.format());
+		//.pipe(eslint.failAfterError());
 });
 
 gulp.task('js',function(){
@@ -149,7 +160,8 @@ gulp.task('js',function(){
 		.pipe(gulp.dest(paths.root))
 		.pipe(notify({
 			message: 'JS complete'
-		}));
+		}))
+		.pipe(browserSync.stream());
 });
 
 })();
