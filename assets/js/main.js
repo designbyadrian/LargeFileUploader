@@ -8,7 +8,8 @@ LFU.config(['$routeProvider', '$locationProvider',function($routeProvider, $loca
 			templateUrl: 'templates/welcome.html'
 		})
 		.when('/form',{
-			templateUrl: 'templates/form.html'
+			templateUrl: 'templates/form.html',
+			controller: 'FormController'
 		})
 		.when('/upload',{
 			templateUrl: 'templates/upload.html',
@@ -19,3 +20,19 @@ LFU.config(['$routeProvider', '$locationProvider',function($routeProvider, $loca
 		})
 		.otherwise('/welcome');
 }]);
+
+LFU.controller('FormController', ['$scope','formFactory',function(scope,form) {
+	scope.setData = form.setData;
+}]);
+
+LFU.factory('formFactory',function(){
+	var fields = {},
+		setData = function(key,value){
+			fields[key] = value;
+		};
+
+	return {
+		fields: fields,
+		setData: setData
+	};
+});

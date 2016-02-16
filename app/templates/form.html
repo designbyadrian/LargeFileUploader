@@ -3,8 +3,8 @@
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit?</p>
 
 <form>
-	<input type="text" placeholder="Name"/>
-	<input type="text" placeholder="Department"/>
+	<input type="text" placeholder="Name" ng-model="name" ng-change="setData('name',name)"/>
+	<input type="text" placeholder="Department" ng-model="department" ng-change="setData('department',department)"/>
 </form>
 
 <a href="#upload" class="btn">Continue</a>
