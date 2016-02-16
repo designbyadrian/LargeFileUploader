@@ -1,10 +1,18 @@
-<label class="btn-upload">{{uploadBtn.label}}
-	<input class="hidden-input" id="fileUpload" type="file" 
-		ngf-select="uploadFiles($file,$invalidFiles)"
-		ngf-drop-disabled="true"
-		ngf-capture="'camera'"
-		ngf-accept="'video/*'"
-		ngf-allow-dir="false"
-		ngf-max-files="1"
-	/>
-</label>
+<div class="btn-upload-wrapper">
+	<div class="btn-upload" ng-class="{'uploading': uploading,'done': done}">
+		<label class="btn">
+			<span ng-hide="done">{{uploadBtn.label}}</span>
+			<span class="label-done" ng-show="done">{{uploadBtn.doneLabel}} <i class="fa fa-check"></i></span>
+			<input class="hidden-input" id="fileUpload" type="file" 
+				ngf-select="uploadFiles($file,$invalidFiles)"
+				ngf-drop-disabled="true"
+				ngf-capture="'camera'"
+				ngf-accept="'video/*'"
+				ngf-allow-dir="false"
+				ngf-max-files="1"
+			/>
+		</label>
+		<div class="progress"><div class="bar" style="width:{{data.progress}}%"></div></div>
+	</div>
+	<div class="timer"><small class="elapsed">{{time.elapsed | amDateFormat:'HH:mm:ss'}}</small><small class="speed">{{data.speedAdjusted}} {{data.speedUnit}}</small><small class="remaining">- {{time.remaining | amDateFormat:'HH:mm:ss'}}</small></div>
+</div>

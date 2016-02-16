@@ -1,4 +1,4 @@
-LFU.controller('UploadController', ['$scope','Upload','$timeout','$interval',function(scope,Upload,$timeout,$interval) {
+LFU.controller('UploadController', ['$scope','Upload','moment','$timeout','$interval','$location',function(scope,Upload,moment,$timeout,$interval,$location) {
 
 	scope.time = {
 		elapsed: 0,
@@ -62,6 +62,10 @@ LFU.controller('UploadController', ['$scope','Upload','$timeout','$interval',fun
 	scope.uploadFiles = function(file,errFiles){
 		console.log("upload file",arguments);
 
+		var calcProgress = function(){
+			scope.data.progress = Math.round((scope.data.loaded/scope.data.total)*100);
+		};
+
 		if(file) {
 
 			file.upload = Upload.upload({
@@ -70,13 +74,15 @@ LFU.controller('UploadController', ['$scope','Upload','$timeout','$interval',fun
 				file: file,
 				sendFieldAs: 'form',
 				fields: {
-					filename: +new Date(),
-					name: 'Adrian'
+					filename: moment().format("YYMMDD_HH-mm-ss-SSS"),
+					filesize: file.size,
+					name: 'Monkey'
 				},
 				resumeChunkSize: '10MB',
 				resumeSizeUrl: 'api/upload.php?getname='+file.name
 			});
 
+			scope.uploading = true;
 			scope.time.start = +new Date();
 
 			scope.interval = $interval(function(){
@@ -84,20 +90,27 @@ LFU.controller('UploadController', ['$scope','Upload','$timeout','$interval',fun
 			},1000);
 
 			scope.loaderInterval = $interval(function(){
-				scope.data.progress = scope.data.loaded;
+				calcProgress();
 			},200);
 
 			file.upload.then(function (response) {
+				console.log("file uploaded",response);
 				$timeout(function () {
 					file.result = response.data;
-					scope.successMsg = "Success!";
 					$interval.cancel(scope.interval);
 					$interval.cancel(scope.loaderInterval);
-					scope.data.progress = scope.data.total;
+					calcProgress();
+					scope.uploading = false;
+					scope.done = true;
+
+					$timeout(function(){
+						$location.url(scope.gotoWhenDone);
+					},2000);
+
 				});
 			}, function (response) {
+				console.error(response);
 				if (response.status > 0) {
-					console.error(response);
 					scope.errorMsg = response.status + ': ' + response.data;
 				}
 			}, function (evt) {
@@ -115,21 +128,13 @@ LFU.directive('uploadButton',function(){
 		restrict: 'E',
 		templateUrl: "templates/partial.upload.html",
 		link: function(scope,$element,attr){
-			console.log("el",$element,attr);
 
 			scope.uploadBtn = {
-				label: attr.label
+				label: attr.label,
+				doneLabel: attr.doneLabel
 			};
 
-
-/*
-
-http://stackoverflow.com/questions/21027888/calculate-upload-speed
-
-ngf-accept="'video/*'"
-http://stackoverflow.com/questions/9655096/calculating-remaining-time-of-upload
-
- */
+			scope.gotoWhenDone = attr.gotoWhenDone;
 		}
 	};
 });

@@ -3,20 +3,138 @@ $fa-font-path: "fonts";
 @import '_normalize.scss'
 @import 'font-awesome'	
 @import 'bourbon'
+@import 'variables.sass'
 @import 'neat'
 
 body
-	font-family: Helvetica
+	font-family: Helvetica, sans-serif
+	+outer-container
+	font-size: 100%
+	color: $text-color
+	background-color: $bg-color
+	line-height: 1.3em
 
-.btn-upload
-	display: block
-	width: 100px
-	height: 100px
+section
+	+span-columns(12)
+	+pad()
+
+	+media($min-tablet)
+		+span-columns(8)
+		+shift(2)
+
+h1
+	font-size: 1.75em
+	font-weight: normal
+	margin-top: flex-gutter()*4
+	margin-bottom: 0.2em
+
+h2
+	font-size: 1.5em
+	font-weight: normal
+	margin-top: 0
+	margin-bottom: flex-gutter()*4
+	color: $color-secondary
+
+small
+	font-size: .69em
+	color: $color-gray
+
+p
+	margin-top: flex-gutter()*2
+	margin-bottom: flex-gutter()*2
+
+form
+	
+	margin-top: flex-gutter()*4
+	margin-bottom: flex-gutter()*4
+
+	input
+		+pad(15px 0 15px 0)
+		display: block
+		width: 100%
+		background: none
+		border: none
+		border-bottom: $border-width solid $color-primary
+		border-radius: 0
+		-webkit-appearance: none
+		outline: 0px !important
+		margin-bottom: flex-gutter()*2
+
+.text-danger
+	color: $color-danger
+
+.btn
+	display: inline-block
+	width: 100%
+	+pad(15px)
 	text-align: center
-	line-height: 100px
-	border-radius: 50px
-	background-color: tomato
-	color: white
+	border: $border-width solid $color-primary
+	background-color: $btn-color
+	text-decoration: none
+	color: $color-primary
+	user-select: none
+	-webkit-tap-highlight-color: transparent
+
+	&:hover,&:active
+		background-color: $color-primary
+		color: white
 
 .hidden-input
 	display: none
+
+.btn-upload-wrapper
+	position: relative
+
+	.timer
+		position: absolute
+		top: 10px
+		left: $border-width
+		right: $border-width
+		z-index: -1
+
+		small
+			position: absolute
+
+		.speed
+			left: 50%
+			transform: translateX(-50%)
+			text-align: center
+
+		.remaining
+			
+			right: 0
+
+.btn-upload
+	transform-style: preserve-3d
+	transition: transform 300ms
+	transform-origin: top
+
+	&.uploading
+		transform: rotateX(90deg)
+
+	&.done
+		pointer-events: none
+
+.progress
+	bottom: -10px
+	left: 0
+	right: 0
+	height: 10px
+	position: absolute
+	transform-style: preserve-3d
+	transform: rotateX(-90deg)
+	transform-origin: top
+	border: $border-width solid $color-primary
+	background-color: $btn-color
+
+	.bar
+		position: absolute
+		top: 0
+		left: 0
+		bottom: 0
+		background-color: $color-primary
+		transition: width 200ms ease-in-out
+
+.disclaimer
+	text-align: justify
+	line-height: 1em

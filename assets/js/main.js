@@ -1,7 +1,7 @@
 var LFU = angular.module('LargeFileUploader', ['ngFileUpload','ngRoute','ngSanitize','ngAnimate','angularMoment','angular-svg-round-progress']);
 
 LFU.config(['$routeProvider', '$locationProvider',function($routeProvider, $locationProvider) {
-	$locationProvider.html5Mode(true);
+	//$locationProvider.html5Mode(true);
 
 	$routeProvider
 		.when('/welcome',{
@@ -10,15 +10,12 @@ LFU.config(['$routeProvider', '$locationProvider',function($routeProvider, $loca
 		.when('/form',{
 			templateUrl: 'templates/form.html'
 		})
-		.when('/test',{
-			templateUrl: 'templates/test.html',
-			controller: 'UploadController'
-		})
 		.when('/upload',{
-			templateUrl: 'templates/upload.html'
+			templateUrl: 'templates/upload.html',
+			controller: 'UploadController'
 		})
 		.when('/done',{
 			templateUrl: 'templates/done.html'
 		})
-		.otherwise('/test');
+		.otherwise('/welcome');
 }]);

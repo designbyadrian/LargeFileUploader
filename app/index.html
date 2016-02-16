@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en" xmlns:ng="http://angularjs.org" ng-app="LargeFileUploader" id="ng-app">
 <head>
 	<title>Reut</title>
@@ -11,7 +12,11 @@
 	<link rel="stylesheet" href="style.css">
 	<script src="script.min.js"></script>
 </head>
-<body ng-view>
-	
+<body>
+	<section class="main">
+		<h1>Title</h1>
+		<div ng-view></div>
+	</section>
+	<div class="pager"></div>
 </body>
 </html>

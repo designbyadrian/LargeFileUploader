@@ -22,7 +22,7 @@ var gulp = require('gulp'),
 		js: 	'./assets/js',
 		sass: 	'./assets/sass',
 		mainJS: './assets/js/main.js',
-		mainSASS: './assets/sass/main.sass'
+		mainSASS: './assets/sass/*.sass'
 	},
 	sassVendors = [
 		'./bower_components/normalize-scss/',
