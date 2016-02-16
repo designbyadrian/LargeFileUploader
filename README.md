@@ -1,6 +1,8 @@
 # LargeFileUploader
 File upload SAP with upload time estimation
 
+[Video demo here](https://www.youtube.com/watch?v=kuasARFWBVI)
+
 ##Installation
 
 ###Requires
