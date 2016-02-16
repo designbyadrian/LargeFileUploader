@@ -1,4 +1,4 @@
-LFU.controller('UploadController', ['$scope','Upload','moment','$timeout','$interval','$location',function(scope,Upload,moment,$timeout,$interval,$location) {
+LFU.controller('UploadController', ['$scope','formFactory','Upload','moment','$timeout','$interval','$location',function(scope,form,Upload,moment,$timeout,$interval,$location) {
 
 	scope.time = {
 		elapsed: 0,
@@ -60,7 +60,6 @@ LFU.controller('UploadController', ['$scope','Upload','moment','$timeout','$inte
 	};
 
 	scope.uploadFiles = function(file,errFiles){
-		console.log("upload file",arguments);
 
 		var calcProgress = function(){
 			scope.data.progress = Math.round((scope.data.loaded/scope.data.total)*100);
@@ -68,18 +67,19 @@ LFU.controller('UploadController', ['$scope','Upload','moment','$timeout','$inte
 
 		if(file) {
 
+			form.setData('_filename',scope.filePrefix+"-"+moment().format("YYMMDD_HH-mm-ss-SSS"));
+			form.setData('_filesize',file.size);
+
+			form.setData('safename',form.fields.name.toLowerCase().replace(/[^a-zA-Z ]/g, "").replace(/[\s]/g, "-"));
+
 			file.upload = Upload.upload({
 				url: 'api/upload.php',
 				method: 'POST',
 				file: file,
 				sendFieldAs: 'form',
-				fields: {
-					filename: moment().format("YYMMDD_HH-mm-ss-SSS"),
-					filesize: file.size,
-					name: 'Monkey'
-				},
+				fields: form.fields,
 				resumeChunkSize: '10MB',
-				resumeSizeUrl: 'api/upload.php?getname='+file.name
+				resumeSizeUrl: 'api/upload.php?name='+form.fields.safename+'&filename='+file.name
 			});
 
 			scope.uploading = true;
@@ -94,7 +94,7 @@ LFU.controller('UploadController', ['$scope','Upload','moment','$timeout','$inte
 			},200);
 
 			file.upload.then(function (response) {
-				console.log("file uploaded",response);
+
 				$timeout(function () {
 					file.result = response.data;
 					$interval.cancel(scope.interval);
@@ -135,6 +135,7 @@ LFU.directive('uploadButton',function(){
 			};
 
 			scope.gotoWhenDone = attr.gotoWhenDone;
+			scope.filePrefix = attr.filePrefix;
 		}
 	};
 });

@@ -2,9 +2,9 @@
 
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit?</p>
 
-<form>
-	<input type="text" placeholder="Name"/>
-	<input type="text" placeholder="Department"/>
+<form name="form">
+	<input type="text" placeholder="Name" required ng-model="name" ng-change="setData('name',name)"/>
+	<input type="text" placeholder="Department" ng-model="department" ng-change="setData('department',department)"/>
 </form>
 
-<a href="#upload" class="btn">Continue</a>
+<a href="#upload" class="btn" ng-disabled="form.$invalid">Continue</a>
